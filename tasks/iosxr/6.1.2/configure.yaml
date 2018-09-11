@@ -1,0 +1,20 @@
+---
+- iosxr_config:
+    src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
+  vars:
+    ansible_user: vagrant
+    ansible_ssh_pass: vagrant
+    ansible_port: 8022
+    ansible_network_os: iosxr
+
+- iosxr_command:
+    commands:
+      - "bash -c mkdir /home/{{ admin_user }}/.ssh"
+      - "bash -c chmod 0700 /home/{{ admin_user }}/.ssh"
+      - "bash -c mkdir /home/{{ regular_user }}/.ssh"
+      - "bash -c chmod 0700 /home/{{ regular_user }}/.ssh"
+  vars:
+    ansible_user: vagrant
+    ansible_ssh_pass: vagrant
+    ansible_port: 8022
+    ansible_network_os: iosxr

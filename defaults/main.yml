@@ -51,3 +51,7 @@ checksum_to_platform_version:
     platform: csr
     build_version: 16.03.05
     src_image_format: qcow2
+  5fa6917803540a0f1c8e1374118430780cdc9ab3:
+    platform: iosxr
+    build_version: 6.1.2
+    src_image_format: vmdk
