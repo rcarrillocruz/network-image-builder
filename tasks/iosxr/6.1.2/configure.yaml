@@ -18,3 +18,44 @@
     ansible_ssh_pass: vagrant
     ansible_port: 8022
     ansible_network_os: iosxr
+
+- iosxr_command:
+    commands:
+      - "bash -c echo 'ssh-rsa {{ item }}' >> /home/{{ admin_user }}/.ssh/authorized_keys"
+  vars:
+    ansible_user: vagrant
+    ansible_ssh_pass: vagrant
+    ansible_port: 8022
+    ansible_network_os: iosxr
+  loop: "{{ admin_user_ssh_keys }}"
+
+- iosxr_command:
+    commands:
+      - "bash -c echo 'ssh-rsa {{ item }}' >> /home/{{ regular_user }}/.ssh/authorized_keys"
+  vars:
+    ansible_user: vagrant
+    ansible_ssh_pass: vagrant
+    ansible_port: 8022
+    ansible_network_os: iosxr
+  loop: "{{ regular_user_ssh_keys }}"
+
+- iosxr_command:
+    commands:
+      - "bash -c chmod 0600 /home/{{ admin_user }}/.ssh/authorized_keys"
+      - "bash -c chown -R {{ admin_user }}:{{ admin_user }} /home/{{ admin_user }}/.ssh"
+      - "bash -c chmod 0600 /home/{{ regular_user }}/.ssh/authorized_keys"
+      - "bash -c chown -R {{ regular_user }}:{{ regular_user }} /home/{{ regular_user }}/.ssh"
+  vars:
+    ansible_user: vagrant
+    ansible_ssh_pass: vagrant
+    ansible_port: 8022
+    ansible_network_os: iosxr
+
+- iosxr_command:
+    commands:
+      - "bash -c sync"
+  vars:
+    ansible_user: vagrant
+    ansible_ssh_pass: vagrant
+    ansible_port: 8022
+    ansible_network_os: iosxr
